@@ -1,0 +1,76 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Build main.cpp into main.o",
+			"command": "c:\\DevDependencies\\msys64\\ucrt64\\bin\\gcc.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-c",
+				"${workspaceFolder}\\src\\main.cpp",
+				"-o",
+				"${workspaceFolder}\\bin\\main.o",
+				"-IC:\\DevDependencies\\SDL2-2.30.2-x86_64-w64-mingw32\\include", // core SDL2
+				"-I${workspaceFolder}\\include"
+			],
+			"options": {
+				"cwd": "c:\\DevDependencies\\msys64\\ucrt64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: c:\\DevDependencies\\msys64\\ucrt64\\bin\\gcc.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Build flecs.c into flecs.o",
+			"command": "c:\\DevDependencies\\msys64\\ucrt64\\bin\\gcc.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-c",
+				"${workspaceFolder}\\include\\flecs.c",
+				"-o",
+				"${workspaceFolder}\\bin\\flecs.o",
+				"-lWs2_32"
+			],
+			"options": {
+				"cwd": "c:\\DevDependencies\\msys64\\ucrt64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: c:\\DevDependencies\\msys64\\ucrt64\\bin\\gcc.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Link main.o with flecs.o and SDL2",
+			"command": "c:\\DevDependencies\\msys64\\ucrt64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"${workspaceFolder}\\bin\\main.o",
+				"${workspaceFolder}\\bin\\flecs.o",
+				"-o",
+				"${workspaceFolder}\\bin\\main",
+				"-LC:\\DevDependencies\\SDL2-2.30.2-x86_64-w64-mingw32\\lib", // core SDL2
+				"-lmingw32",
+				"-lSDL2main",
+				"-lSDL2",
+				"-lWs2_32",
+			],
+			"options": {
+				"cwd": "c:\\DevDependencies\\msys64\\ucrt64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: c:\\DevDependencies\\msys64\\ucrt64\\bin\\gcc.exe"
+		},
+	]
+}
