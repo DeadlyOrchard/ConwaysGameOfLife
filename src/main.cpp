@@ -3,12 +3,8 @@
 #include <iostream>
 #include <vector>
 
-struct State {
-    bool alive;
-};
-
 struct Grid {
-    std::vector<std::vector<State>> states;
+    std::vector<std::vector<bool>> states;
 };
 
 struct InputData {
@@ -55,9 +51,9 @@ int main(int argc, char *argv[]) {
     // generate grid of cells
     flecs::entity cells = world.entity().set<Grid>({ });
     for (int r = 0; r < ROWS; r++) {
-        std::vector<State> row;
+        std::vector<bool> row;
         for (int c = 0; c < COLUMNS; c++) {
-            row.push_back(State{ false });
+            row.push_back( false );
         }
         Grid* g = cells.get_mut<Grid>();
         g->states.push_back(row);
@@ -72,11 +68,11 @@ int main(int argc, char *argv[]) {
             SDL_RenderClear(renderer);
             SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
             int r = 0;
-            for (std::vector<State> row : g.states) {
+            for (std::vector<bool> row : g.states) {
                 int c = 0;
-                for (State s : row) {
+                for (bool alive : row) {
                     SDL_Rect rect = {c * SPACE, r * SPACE, SPACE, SPACE};
-                    if (s.alive) { SDL_RenderFillRect(renderer, &rect); }
+                    if (alive) { SDL_RenderFillRect(renderer, &rect); }
                     else { SDL_RenderDrawRect(renderer, &rect); }
                     c++;
                 }
@@ -102,11 +98,11 @@ int main(int argc, char *argv[]) {
             SDL_RenderClear(renderer);
             SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
             int r = 0;
-            for (std::vector<State> row : g.states) {
+            for (std::vector<bool> row : g.states) {
                 int c = 0;
-                for (State s : row) {
+                for (bool alive : row) {
                     SDL_Rect rect = {c * SPACE, r * SPACE, SPACE, SPACE};
-                    if (s.alive) { SDL_RenderFillRect(renderer, &rect); }
+                    if (alive) { SDL_RenderFillRect(renderer, &rect); }
                     c++;
                 }
                 r++;
@@ -137,7 +133,7 @@ int main(int argc, char *argv[]) {
                     else if (rowEnd > ROWS) { rowEnd = ROWS; }
 
                     // get neighbor states
-                    std::vector<State> neighbors;
+                    std::vector<bool> neighbors;
                     for (int col = colStart; col < colEnd; col++) {
                         for (int row = rowStart; row < rowEnd; row++) {
                             if (col == c && row == r) { continue; } // skip current state
@@ -146,18 +142,18 @@ int main(int argc, char *argv[]) {
                     }
 
                     // current cell's state
-                    State cellState = g.states[r][c];
+                    bool isAlive = g.states[r][c];
                     // iterator over neighbors
                     int liveNeighbors = 0;
-                    for (State neighbor : neighbors) {
-                        if (neighbor.alive) {
+                    for (bool alive : neighbors) {
+                        if (alive) {
                             liveNeighbors++;
                         }
                     }
 
                     // calc new state
                     bool newState;
-                    if (cellState.alive) {
+                    if (isAlive) {
                         newState = liveNeighbors == 2 || liveNeighbors == 3;
                     } else {
                         newState = liveNeighbors == 3;
@@ -169,7 +165,7 @@ int main(int argc, char *argv[]) {
             // copy them over
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < ROWS; r++) {
-                    g.states[r][c].alive = newStates[r][c];
+                    g.states[r][c] = newStates[r][c];
                 }
             }
         });
@@ -208,7 +204,7 @@ int main(int argc, char *argv[]) {
                 int r = data->y;
                 int c = data->x;
                 Grid* g = cells.get_mut<Grid>();
-                g->states[r][c].alive = !g->states[r][c].alive;
+                g->states[r][c] = !g->states[r][c];
                 break;
                 }
             }
