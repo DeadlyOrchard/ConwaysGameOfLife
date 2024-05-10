@@ -27,3 +27,6 @@
   - `g++ .\bin\main.o .\bin\flecs.o -o \bin\main -L${SDL2 core library} -lSDL2main -lSDL2 -lWs2_32`
     - The SDL2 core library should hold the binaries necessary for linking such as, `libSDL2.a`, `libSDL2.dll.a`, `libSDL2.lla`, `libSDL2main.a`, and `libSDL2main.la`.
 - If you check the contents of `.\bin\`, you should see `flecs.o`, `main.o`, `SDL2.dll`, and `main.exe`.
+### Demo
+![demo](https://github.com/DeadlyOrchard/ConwaysGameOfLife/blob/main/demo.gif)
+- Initial board state: [Gosper glider gun](https://playgameoflife.com/lexicon/Gosper_glider_gun)
