@@ -14,10 +14,10 @@ struct InputData {
 struct Simulate {  };
 
 // constants
-const int x = SDL_WINDOWPOS_UNDEFINED;
+const int x = SDL_WINDOWPOS_CENTERED;
 const int y = x;
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 900;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
 const int SPACE = 20; // distance between cells
 const int COLUMNS = SCREEN_WIDTH / SPACE;
 const int ROWS = SCREEN_HEIGHT / SPACE;
@@ -64,16 +64,21 @@ int main(int argc, char *argv[]) {
     flecs::system drawLayout = world.system<const Grid>()
         .kind(flecs::OnStore)
         .each([renderer](const Grid &g) {
-            SDL_SetRenderDrawColor(renderer, 33, 33, 33, 255);
+            SDL_SetRenderDrawColor(renderer, 11, 11, 11, 255);
             SDL_RenderClear(renderer);
-            SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
             int r = 0;
             for (std::vector<bool> row : g.states) {
                 int c = 0;
                 for (bool alive : row) {
                     SDL_Rect rect = {c * SPACE, r * SPACE, SPACE, SPACE};
-                    if (alive) { SDL_RenderFillRect(renderer, &rect); }
-                    else { SDL_RenderDrawRect(renderer, &rect); }
+                    if (alive) { 
+                        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+                        SDL_RenderFillRect(renderer, &rect);
+                    }
+                    else {
+                        SDL_SetRenderDrawColor(renderer, 33, 33, 33, 255);
+                        SDL_RenderDrawRect(renderer, &rect);
+                    }
                     c++;
                 }
                 r++;
@@ -94,9 +99,9 @@ int main(int argc, char *argv[]) {
     flecs::system drawSim = world.system<const Grid>()
         .kind<Simulate>()
         .each([renderer](const Grid &g) {
-            SDL_SetRenderDrawColor(renderer, 33, 33, 33, 255);
+            SDL_SetRenderDrawColor(renderer, 11, 11, 11, 255);
             SDL_RenderClear(renderer);
-            SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 155, 0, 255);
             int r = 0;
             for (std::vector<bool> row : g.states) {
                 int c = 0;
